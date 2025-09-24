@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: ndlukula
-        image: docker.io/tinamuzenda/ndlukula:1.0.2 # {"$imagepolicy": "flux-system:ndlukula-staging-policy"}
+        image: docker.io/tinamuzenda/ndlukula:1.0.3 # {"$imagepolicy": "flux-system:ndlukula-staging-policy"}
         ports:
         - containerPort: 80
 
