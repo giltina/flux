@@ -1,0 +1,39 @@
+# flux/clusters/staging/deployment.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ndlukula-app
+  namespace: staging
+spec:
+  template:
+    metadata:
+      labels:
+        app: ndlukula
+    spec:
+      containers:
+      - name: ndlukula
+        image: docker.io/tinamuzenda/ndlukula:1.0.0 # {"$imagepolicy": "flux-system:ndlukula-staging-policy"}
+        ports:
+        # Your application is listening on port 80 inside the container.
+        - containerPort: 80
+      imagePullSecrets:
+      - name: flux-docker-creds
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ndlukula-service
+  namespace: staging
+spec:
+  type: LoadBalancer
+  selector:
+    app: ndlukula
+  ports:
+  - protocol: TCP
+    # The port the LoadBalancer will expose to the internet.
+    port: 8083
+    # The port on the pods that the LoadBalancer will forward traffic to.
+    # This remains 80, as that's where your application is listening.
+    targetPort: 80

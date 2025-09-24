@@ -1,0 +1,58 @@
+# flux/clusters/staging/image-automation.yaml
+---
+# ImageRepository: Specifies the image registry to monitor
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: ndlukula
+  namespace: flux-system
+spec:
+  image: tinamuzenda/ndlukula
+  interval: 1m
+  secretRef:
+    # This secret allows the ImageReflectorController to authenticate with Docker Hub
+    name: flux-docker-creds
+
+---
+# ImagePolicy: Defines the rules for selecting the latest image
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: ndlukula-staging-policy
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: ndlukula
+  policy:
+    semver:
+      range: '1.x.x' # Automatically update to any version in the 1.x.x series
+  filter:
+    patterns:
+      # This regex ensures only tags that look like semver versions are considered.
+      - '^(v)?\d+\.\d+\.\d+$'
+
+---
+# ImageUpdateAutomation: The controller that commits changes to Git
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: ndlukula-staging
+  namespace: flux-system
+spec:
+  interval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: fluxcd@users.noreply.github.com
+        name: fluxcd
+      messageTemplate: "Automate: Update ndlukula app in staging to {{ .LatestImage.Tag }}"
+  update:
+    # This is the key that tells Flux which files to update
+    path: ./flux/clusters/staging
+    strategy: Setters
