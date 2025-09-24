@@ -6,6 +6,10 @@ metadata:
   name: ndlukula-app
   namespace: staging
 spec:
+  # The selector must match the template labels
+  selector:
+    matchLabels:
+      app: ndlukula
   template:
     metadata:
       labels:
@@ -15,7 +19,6 @@ spec:
       - name: ndlukula
         image: docker.io/tinamuzenda/ndlukula:1.0.0 # {"$imagepolicy": "flux-system:ndlukula-staging-policy"}
         ports:
-        # Your application is listening on port 80 inside the container.
         - containerPort: 80
       imagePullSecrets:
       - name: flux-docker-creds
@@ -32,8 +35,5 @@ spec:
     app: ndlukula
   ports:
   - protocol: TCP
-    # The port the LoadBalancer will expose to the internet.
     port: 8083
-    # The port on the pods that the LoadBalancer will forward traffic to.
-    # This remains 80, as that's where your application is listening.
     targetPort: 80
