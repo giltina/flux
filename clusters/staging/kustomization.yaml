@@ -7,3 +7,5 @@ resources:
 
   # The Flux automation resources for this environment
   - image-automation.yaml
+
+  - namespace.yaml  # Add this line

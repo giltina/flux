@@ -1,4 +1,6 @@
+# flux/clusters/staging/namespace.yaml
+---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: my-namespace
+  name: staging
