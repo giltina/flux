@@ -20,8 +20,6 @@ spec:
         image: docker.io/tinamuzenda/ndlukula:1.0.0 # {"$imagepolicy": "flux-system:ndlukula-staging-policy"}
         ports:
         - containerPort: 80
-      imagePullSecrets:
-      - name: flux-docker-creds
 
 ---
 apiVersion: v1

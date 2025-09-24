@@ -9,9 +9,6 @@ metadata:
 spec:
   image: tinamuzenda/ndlukula
   interval: 1m
-  secretRef:
-    # This secret allows the ImageReflectorController to authenticate with Docker Hub
-    name: flux-docker-creds
 
 ---
 # ImagePolicy: Defines the rules for selecting the latest image
