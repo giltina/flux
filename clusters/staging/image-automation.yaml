@@ -26,10 +26,6 @@ spec:
   policy:
     semver:
       range: '1.x.x' # Automatically update to any version in the 1.x.x series
-  filter:
-    patterns:
-      # This regex ensures only tags that look like semver versions are considered.
-      - '^(v)?\d+\.\d+\.\d+$'
 
 ---
 # ImageUpdateAutomation: The controller that commits changes to Git
@@ -53,6 +49,5 @@ spec:
         name: fluxcd
       messageTemplate: "Automate: Update ndlukula app in staging to {{ .LatestImage.Tag }}"
   update:
-    # This is the key that tells Flux which files to update
     path: ./flux/clusters/staging
     strategy: Setters
