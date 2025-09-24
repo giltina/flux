@@ -25,7 +25,7 @@ spec:
     name: ndlukula
   policy:
     semver:
-      range: '1.x.x' # Automatically update to any version in the 1.x.x series
+      range: '1.*' # Automatically update to any version in the 1.x.x series
 
 ---
 # ImageUpdateAutomation: The controller that commits changes to Git
